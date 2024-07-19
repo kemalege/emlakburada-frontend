@@ -17,6 +17,7 @@ import { Icons } from "@/components/icons"
 import { useRouter } from "next/navigation"
 import Cookies from "js-cookie"
 import apiFetch from "@/lib/api"
+import { ApiResponse, User } from "@/types/api"
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -47,7 +48,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     //   callbackUrl: searchParams?.get("from") || "/dashboard",
     // })
 
-    const result = await apiFetch('/users/email', {
+    const result = await apiFetch<User>('/users/email', {
       method: 'POST',
       body: { email: data.email.toLowerCase() },
     });
@@ -55,7 +56,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     const { status, data: responseData, error } = result;
   
     if (status === 'SUCCESS') {
-      const { id, name, surname, email, password, phoneNumber, addresses, isActive } = responseData;
+      const { id, name, email } = responseData;
       setCheckUserExist(true);
       Cookies.set('authenticated', 'true');
       Cookies.set('userId', id);
@@ -64,7 +65,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
       console.error('Error from server:', error);
       setError('email', {
         type: 'manual',
-        message: error.message,
+        message: error?.message,
       });
       setIsLoading(false);
       return toast({
