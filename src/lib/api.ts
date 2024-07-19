@@ -1,10 +1,12 @@
+import { ApiResponse } from "@/types/api";
+
 const BASE_URL = 'http://localhost:8080/api/v1';
 
 interface FetchOptions extends RequestInit {
   body?: any;
 }
 
-const apiFetch = async (endpoint: string, options: FetchOptions = {}): Promise<any> => {
+const apiFetch = async <T>(endpoint: string, options: FetchOptions = {}): Promise<ApiResponse<T>> => {
   const url = `${BASE_URL}${endpoint}`;
 
   try {
@@ -21,11 +23,13 @@ const apiFetch = async (endpoint: string, options: FetchOptions = {}): Promise<a
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    return await response.json();
+    const data: ApiResponse<T> = await response.json();
+    return data;
   } catch (error) {
     console.error('Fetch error:', error);
     throw error; 
   }
 };
+
 
 export default apiFetch;
