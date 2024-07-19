@@ -47,38 +47,41 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     //   callbackUrl: searchParams?.get("from") || "/dashboard",
     // })
 
-    try {
-        const result = await apiFetch('/users/email', {
-          method: 'POST',
-          body: { email: data.email.toLowerCase() },
-        });
-    
-        const { status, data: responseData, error } = result;
-    
-        if (status === 'SUCCESS') {
-          const { id, name, surname, email, password, phoneNumber, addresses, isActive } = responseData;
-          setCheckUserExist(true);
-          Cookies.set('authenticated', 'true');
-          router.push('/dashboard');
-        } else {
-          console.error('Error from server:', error);
-          setError('email', {
-            type: 'manual',
-            message: error.message,
-          });
-        }
-      } catch (error) {
-        console.error('Fetch error:', error);
-      }
-
-    setIsLoading(false)
-
+    const result = await apiFetch('/users/email', {
+      method: 'POST',
+      body: { email: data.email.toLowerCase() },
+    });
+  
+    const { status, data: responseData, error } = result;
+  
+    if (status === 'SUCCESS') {
+      const { id, name, surname, email, password, phoneNumber, addresses, isActive } = responseData;
+      setCheckUserExist(true);
+      Cookies.set('authenticated', 'true');
+      Cookies.set('userId', id);
+      router.push('/myads');
+    } else {
+      console.error('Error from server:', error);
+      setError('email', {
+        type: 'manual',
+        message: error.message,
+      });
+      setIsLoading(false);
+      return toast({
+        title: "Bir şeyler yanlış gitti.",
+        description: "Giriş isteği başarısız oldu. Lütfen tekrar deneyin.",
+        variant: "destructive",
+      });
+    }
+  
+    setIsLoading(false);
+  
     if (!checkUserExist) {
       return toast({
         title: "Bir şeyler yanlış gitti.",
         description: "Giriş isteği başarısız oldu. Lütfen tekrar deneyin.",
         variant: "destructive",
-      })
+      });
     }
 
     // return toast({
