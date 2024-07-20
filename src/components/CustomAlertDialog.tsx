@@ -1,40 +1,51 @@
+import React, { useState } from "react";
+import { createPortal } from "react-dom";
 import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
-  } from "@/components/ui/alert-dialog"
-  
-export interface CustomAlertDialogProps {
-    buttonLabel: string;
-    message: string;
-    title: string;
-    className?: string;
-    action: () => void;
-}
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogCancel,
+  AlertDialogAction,
+} from "./ui/alert-dialog";
 
-export function CustomAlertDialog(props: CustomAlertDialogProps) {
-    const { message, title, action, className, buttonLabel } = props;
+export const CustomAlertDialog: React.FC<{
+  buttonLabel: string;
+  title: string;
+  message: string;
+  action: () => void;
+  className?: string;
+}> = ({ buttonLabel, title, message, action, className }) => {
+  const [isOpen, setIsOpen] = useState(false);
 
-    return (
-        <AlertDialog>
-            <AlertDialogTrigger className={className}>{buttonLabel}</AlertDialogTrigger>
-            <AlertDialogContent>
-                <AlertDialogHeader>
-                    <AlertDialogTitle>{title}</AlertDialogTitle>
-                    <AlertDialogDescription>{message}</AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                    <AlertDialogCancel>İptal</AlertDialogCancel>
-                    <AlertDialogAction onClick={action}>Evet</AlertDialogAction>
-                </AlertDialogFooter>
-            </AlertDialogContent>
-        </AlertDialog>
-    );
-}
-  
+  const handleOpenChange = (open: boolean) => {
+    setIsOpen(open);
+  };
+
+  return (
+    <AlertDialog open={isOpen} onOpenChange={handleOpenChange}>
+      <AlertDialogTrigger className={className}>
+        {buttonLabel}
+      </AlertDialogTrigger>
+      {isOpen &&
+        createPortal(
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>{title}</AlertDialogTitle>
+              <AlertDialogDescription>{message}</AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>İptal</AlertDialogCancel>
+              <AlertDialogAction className="bg-[#C75351]" onClick={action}>Evet</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>,
+          document.body 
+        )}
+    </AlertDialog>
+  );
+};
+
+export default CustomAlertDialog;
