@@ -1,3 +1,5 @@
+import { AdStatus } from "./enums";
+
 export interface User {
     id: string;
     name: string;
@@ -15,7 +17,7 @@ export interface Ad {
     id: string;
     userId: number;
     createDate: string;
-    adStatus: 'ACTIVE' | 'PASSIVE';
+    adStatus: AdStatus;
     adCode: string;
     title: string;
     category: string;
