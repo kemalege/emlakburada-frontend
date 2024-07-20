@@ -1,23 +1,35 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "./ui/card";
+"use client";
+
+import { Card, CardFooter, CardHeader, CardTitle } from "./ui/card";
 import { MyAdActionsMenu } from "./MyAdActionsMenu";
 import Image from "next/image";
 import { formatDate } from "@/lib/utils";
+import { Ad } from "@/types/api";
+import { Button } from "./ui/button";
+import { AdStatus } from "@/types/enums";
+import { revalidateTag } from "next/cache";
+import { useState } from "react";
+import { CustomAlertDialog } from "./CustomAlertDialog";
 
-export function AdCard({ adItem }: { adItem: any }) {
+export function AdCard({
+  editable = false,
+  adItem,
+  updateAdStatus = () => {},
+  deleteAd = () => {},
+}: {
+  editable?: boolean;
+  adItem: Ad;
+  updateAdStatus?: (tag: string) => void;
+  deleteAd?: (tag: string) => void;
+}) {
+
   return (
     <Card
       key={adItem.id}
       className="w-full mb-2 shadow-lg hover:shadow-xl transition-shadow duration-300 p-4 flex items-center"
     >
       <Image
-        src={adItem.image || "/no-image.png"}
+        src={adItem.imageUrl || "/no-image.png"}
         alt={adItem.title}
         width={120}
         height={80}
@@ -25,31 +37,35 @@ export function AdCard({ adItem }: { adItem: any }) {
       />
       <div className="ml-4 flex-1">
         <CardHeader className="p-0">
-          <CardTitle className="text-xl font-semibold text-blue-700">
+          <CardTitle className="text-lg font-medium text-blue-700">
             {adItem.title}
           </CardTitle>
-          <CardDescription className="text-sm text-gray-500">
-            <div>{adItem.description}</div>
+          <div className="text-sm text-gray-500">
+            <div>{adItem.details}</div>
             <div className="mt-2">{adItem.location}</div>
             <div className="mt-2">
               Son Yayınlanma Tarihi: {formatDate(adItem.createDate)}
             </div>
-            <div className="mt-2">
-              Yayından Kalktığı Tarih: {adItem.removedDate}
-            </div>
-          </CardDescription>
+            <div className="mt-2">Yayından Kalktığı Tarih:</div>
+          </div>
         </CardHeader>
       </div>
       <div className="ml-4 text-right">
-        <div className="text-red-500 text-xl font-semibold">{adItem.price}</div>
-        <CardFooter className="flex justify-end mt-4">
-          {adItem.adStatus === "PASSIVE" && (
-            <button className="bg-blue-500 text-white px-4 py-2 rounded-lg mr-2">
-              Yayına Al
-            </button>
+        <div className="text-red-500 text-lg">
+          {adItem.price} TL
+        </div>
+        {editable && <CardFooter className="flex justify-end mt-4">
+          {adItem.adStatus === AdStatus.PASSIVE && (
+            <CustomAlertDialog
+              className="bg-blue-500 text-white px-4 py-2 rounded-lg mr-2"
+              buttonLabel="Yayına Al"
+              title="İlanı Yayına"
+              message="İlanı yayınlamak almak istediğinizden emin misiniz"
+              action={() => updateAdStatus(adItem.id)}
+            ></CustomAlertDialog>
           )}
-          <MyAdActionsMenu />
-        </CardFooter>
+          <MyAdActionsMenu adId={adItem.id} deleteAd={deleteAd} />
+        </CardFooter>}
       </div>
     </Card>
   );
