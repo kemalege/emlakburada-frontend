@@ -2,46 +2,62 @@
 import { cookies } from "next/headers"
 
 import apiFetch from "@/lib/api"
-import { toast } from "@/components/ui/use-toast"
-import { AdCard } from "@/components/AdCard"
-import { Ad, AdListResponse } from "@/types/api";
-import { revalidateTag } from "next/cache";
+import { AdListResponse } from "@/types/api";
 import { PaginationComponent } from "@/components/Pagination";
-import { DataTable } from "@/components/DataTable";
+import { GenericTable } from "@/components/GenericTable";
+import { purchaseHistoryColumns } from "./columnDef/PurchaseHistory";
+import { MyPacketCard } from "./components/UserPacketInformationCard";
 
+const cookieStore = cookies();
 
-const fetchAllAdsPagination = async (page: number, size: number) => {
-  const result = await apiFetch<AdListResponse>(`/ads?&adStatus=ACTIVE&page=${page-1}&size=${size}`,{
+const fetchPurchasedPackets = async () => {
+  const userId = cookieStore.get("userId")?.value;
+
+  const result = await apiFetch<any>(`/pay/list/user/${userId}`,{
     next: {
       tags: [
-        'myads'
+        'my-packets'
       ],
-      revalidate: 360,
     },
     method: 'GET',
   } );
   if (result.status === 'SUCCESS') {
-
-    const { data, totalRecords } = result;
-
-    const pageCount = totalRecords && Math.ceil(totalRecords / size)
-
-    return {pageCount, data: data}
-
+    return result.data;
   } else {
     console.error('Error from server:', result.error);
-    toast({
-      title: "Bir şeyler yanlış gitti.",
-      variant: "destructive",
-    });
+  }
+}
+
+const fetchUserPacket = async () => {
+  const userId = cookieStore.get("userId")?.value;
+
+  const result = await apiFetch<any>(`/packages/user/${userId}`,{
+    next: {
+      tags: [
+        'my-packets'
+      ],
+    },
+    method: 'GET',
+  } );
+  if (result.status === 'SUCCESS') {
+    return result.data[0];
+  } else {
+    console.error('Error from server:', result.error);
   }
 }
 
 export default async function MyPackets() {
 
+  const purchasedPackets = await fetchPurchasedPackets()
+  const userPacket = await fetchUserPacket()
+
   return (
-    <div className="flex container h-screen flex-col items-center justify-between p-24">
-      <DataTable />
+    <div className="flex container h-screen flex-col items-center justify-between p-24 gap-4">
+      <MyPacketCard userPacket={userPacket}/>
+      <div className="w-full text-left">
+        <h1 className="text-start text-xl text-gray-600 font-semibold">Satın Alma Geçmişi</h1>
+      </div>
+      <GenericTable data={purchasedPackets} columns={purchaseHistoryColumns} />
     </div>
   );
 }
