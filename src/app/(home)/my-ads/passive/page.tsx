@@ -18,7 +18,7 @@ const customRevalidateTag = (tag: string) => {
 const fetchPassiveAds = async () => {
   const userId = cookieStore.get("userId")?.value;
   const result = await apiFetch<AdListResponse>(
-    `/ads?userId=${userId}&adStatus=PASSIVE&page=0&size=4`,
+    `/ads?userId=${userId}&adStatus=PASSIVE&page=0&size=10`,
     {
       next: {
         tags: ["myads"],
@@ -70,10 +70,6 @@ async function updateAdStatusToActive(id: string) {
         body: JSON.stringify({ adStatus: AdStatus.ACTIVE }),
       }
     );
-
-    //   if (!response.ok) {
-    //     throw new Error(`HTTP error! status: ${response.status}`);
-    //   }
 
     customRevalidateTag("myads");
   } catch (error) {
