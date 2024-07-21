@@ -8,8 +8,8 @@ import { Ad } from "@/types/api";
 import { Button } from "./ui/button";
 import { AdStatus } from "@/types/enums";
 import { revalidateTag } from "next/cache";
-import { useState } from "react";
 import { CustomAlertDialog } from "./CustomAlertDialog";
+import Link from "next/link";
 
 export function AdCard({
   editable = false,
@@ -35,11 +35,13 @@ export function AdCard({
         height={80}
         className="rounded-md object-cover"
       />
-      <div className="ml-4 flex-1">
+      <nav className="ml-4 flex-1">
         <CardHeader className="p-0">
-          <CardTitle className="text-md font-medium text-blue-700">
-            {adItem.title}
-          </CardTitle>
+          <Link href={`ad/${adItem.id}/details`} >
+            <CardTitle className="text-md font-medium text-blue-700 hover:underline">
+              {adItem.title}
+            </CardTitle>
+          </Link>
           <div className="text-sm text-gray-500">
             <div>{adItem.details}</div>
             <div className="mt-2">{adItem.location}</div>
@@ -48,7 +50,7 @@ export function AdCard({
             </div>
           </div>
         </CardHeader>
-      </div>
+      </nav>
       <div className="ml-4 text-right" >
         <div className="text-red-500 text-sm">
           {adItem.price} TL
