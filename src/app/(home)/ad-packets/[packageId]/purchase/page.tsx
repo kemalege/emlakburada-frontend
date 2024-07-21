@@ -2,6 +2,7 @@ import PaymentPage from '@/components/PaymentPage';
 import apiFetch from '@/lib/api';
 import { TPaymentSchema } from '@/lib/validations/payment';
 import { AdPacket, PaymentDetails } from '@/types/api';
+import { revalidateTag } from 'next/cache';
 import { cookies } from 'next/headers';
 import React from 'react'
 
@@ -30,9 +31,9 @@ const fetchAdPackage = async (packageId: number) => {
     }
   }
 
-  const purschasePacket = async (data: PurchasePackageRequest) => {
+  const purchasePacket = async (data: PurchasePackageRequest) => {
     'use server'
-    const result = await apiFetch(`/packages}`,{
+    const result = await apiFetch(`/packages`,{
       method: 'POST',
       body: {
         packageId: data.packageId,
@@ -40,18 +41,14 @@ const fetchAdPackage = async (packageId: number) => {
         paymentDetails: data.paymentDetails,
       }
     } );
-    if (result.status === 'SUCCESS') {
-        return result.data;
-    } else {
-      console.error('Error from server:', result.error);
-    }
+    revalidateTag('my-packets');
   }
 
 export default async function PurschasePacketPage({params}: {params: pageParams}) {
     
     const data = await fetchAdPackage(params.packageId);
-    
+
     return (
-        data && <PaymentPage<AdPacket> product={data} onSubmitPayment={purschasePacket} />
+        data && <PaymentPage<AdPacket> product={data} onSubmitPayment={purchasePacket} />
     )
 }
