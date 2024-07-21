@@ -2,24 +2,20 @@
 
 import {
   Menubar,
-  MenubarCheckboxItem,
   MenubarContent,
   MenubarItem,
   MenubarMenu,
-  MenubarRadioGroup,
-  MenubarRadioItem,
   MenubarSeparator,
   MenubarShortcut,
-  MenubarSub,
-  MenubarSubContent,
-  MenubarSubTrigger,
   MenubarTrigger,
 } from "@/components/ui/menubar";
 import Link from "next/link";
 import { CustomAlertDialog } from "./CustomAlertDialog";
 import { cn } from "@/lib/utils";
+import { Ad } from "@/types/api";
+import { AdStatus } from "@/types/enums";
 
-export function MyAdActionsMenu({ adId, deleteAd }: { adId: string, deleteAd: (id: string) => void }) {
+export function MyAdActionsMenu({ adItem, deleteAd }: { adItem: Ad, deleteAd: (id: string) => void }) {
   
   return (
     <Menubar>
@@ -39,14 +35,14 @@ export function MyAdActionsMenu({ adId, deleteAd }: { adId: string, deleteAd: (i
               buttonLabel="İlanı sil"
               title="İlanı sil"
               message="İlanı silmek istediğinize emin misiniz?"
-              action={() => deleteAd(adId)}
+              action={() => deleteAd(adItem.id)}
             />
           </div>
           <MenubarItem disabled>New Incognito Window</MenubarItem>
           <MenubarSeparator />
 
           <MenubarSeparator />
-          <MenubarItem>Yayina Al</MenubarItem>
+          {adItem.adStatus === AdStatus.PASSIVE && <MenubarItem>Yayına Al</MenubarItem>}
         </MenubarContent>
       </MenubarMenu>
     </Menubar>
