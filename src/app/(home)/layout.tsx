@@ -4,6 +4,7 @@ import "../../styles/globals.css";
 import SessionWrapper from "@/components/SessionWrapper";
 import Header from "@/components/Header";
 import { UserProvider } from "../context/UserContext";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,6 +29,7 @@ export default function RootLayout({
             <Header />
           </UserProvider>
           {children}
+          <Toaster />
         </main>
       </body>
     </html>
