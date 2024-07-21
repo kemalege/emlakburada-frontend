@@ -13,18 +13,32 @@ const apiFetch = async <T>(endpoint: string, options: FetchOptions = {}): Promis
     const response = await fetch(url, {
       ...options,
       headers: {
+        'Content-Type': 'application/json',
         ...options.headers,
       },
       body: options.body ? JSON.stringify(options.body) : undefined,
     });
 
-    const data: ApiResponse<T> = await response.json();
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const contentType = response.headers.get('Content-Type');
+    let data: ApiResponse<T>;
+
+    if (contentType && contentType.includes('application/json')) {
+      data = await response.json();
+    } else {
+      data = {} as ApiResponse<T>; 
+    }
+
     return data;
   } catch (error) {
     console.error('Fetch error:', error);
-    throw error; 
+    throw error;
   }
 };
+
 
 
 export default apiFetch;
