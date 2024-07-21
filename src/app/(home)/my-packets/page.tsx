@@ -53,11 +53,13 @@ export default async function MyPackets() {
 
   return (
     <div className="flex container h-screen flex-col items-center justify-between p-24 gap-4">
-      <MyPacketCard userPacket={userPacket}/>
+      {userPacket ? <MyPacketCard userPacket={userPacket}/> : <div className="w-full text-center">Aktif bir paketiniz yoktur.</div>} 
       <div className="w-full text-left">
         <h1 className="text-start text-xl text-gray-600 font-semibold">Satın Alma Geçmişi</h1>
       </div>
-      <GenericTable data={purchasedPackets} columns={purchaseHistoryColumns} />
+      <div className="flex align-top w-full h-full">
+        <GenericTable data={purchasedPackets} columns={purchaseHistoryColumns} />
+      </div>
     </div>
   );
 }
