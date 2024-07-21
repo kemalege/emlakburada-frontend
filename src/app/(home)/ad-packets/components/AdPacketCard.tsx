@@ -16,7 +16,7 @@ import { AdPacket } from "@/types/api"
 import MostPopularFrame from "./MostPopularFrame"
 import { useRouter } from "next/navigation"
 
-const mostPopularAdId = 3
+const mostPopularAdId = 2
 
 export function AdPacketCard({adPacket}:{adPacket:AdPacket}) {
   const router = useRouter()
