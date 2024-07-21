@@ -65,7 +65,7 @@ export function AdCard({
               action={() => updateAdStatus(adItem.id)}
             ></CustomAlertDialog>
           )}
-          <MyAdActionsMenu adId={adItem.id} deleteAd={deleteAd} />
+          <MyAdActionsMenu adItem={adItem} deleteAd={deleteAd} />
         </CardFooter>}
       </div>
     </Card>
