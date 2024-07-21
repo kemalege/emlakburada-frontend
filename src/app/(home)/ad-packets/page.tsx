@@ -1,21 +1,18 @@
 "use server";
-import { cookies } from "next/headers";
-
 import apiFetch from "@/lib/api";
 import { toast } from "@/components/ui/use-toast";
-import { AdCard } from "@/components/AdCard";
-import { Ad, AdListResponse, AdPacketList } from "@/types/api";
-import { revalidateTag } from "next/cache";
-import { AdStatus } from "@/types/enums";
+import { AdPacketList } from "@/types/api";
 import { AdPacketCard } from "./components/AdPacketCard";
 
-const cookieStore = cookies();
 
 const fetchAdPackets = async () => {
-  const result = await apiFetch<AdPacketList>(`/packages`,
+  const result = await apiFetch<AdPacketList>(`/packages`, 
     {
       method: "GET",
-    }
+      next: {
+        revalidate: 0
+      }
+    },
   );
   if (result.status === "SUCCESS") {
     return result.data;
@@ -27,6 +24,7 @@ const fetchAdPackets = async () => {
     });
   }
 };
+
 
 export default async function AdPackets() {
   const data = await fetchAdPackets();
