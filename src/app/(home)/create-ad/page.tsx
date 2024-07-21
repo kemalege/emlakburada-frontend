@@ -6,6 +6,7 @@ import { toast } from "@/components/ui/use-toast"
 import { AdListResponse } from "@/types/api";
 import { NewAdForm } from "./components/NewAdForm";
 import { TAdFormSchema } from "@/lib/validations/payment";
+import { revalidateTag } from "next/cache";
 
 const cookieStore = cookies();
 
@@ -20,8 +21,8 @@ const createNewAd = async (data: TAdFormSchema) => {
       method: "POST",
       body: send,
     }
-    
   );
+  revalidateTag("myads")
   return result
 };
 
