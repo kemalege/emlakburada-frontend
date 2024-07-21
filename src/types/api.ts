@@ -6,6 +6,7 @@ import { AdStatus } from "./enums";
     data: T;
     error?: {message: string};
     totalRecords?: number;
+    message?: string;
   }
   
 export interface Ad {
