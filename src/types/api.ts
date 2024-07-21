@@ -11,6 +11,7 @@ export interface User {
     httpStatus: string;
     data: T;
     error?: {message: string};
+    totalRecords?: number;
   }
   
 export interface Ad {
@@ -27,5 +28,13 @@ export interface Ad {
     imageUrl?: string;
 }
 
+export interface AdPacket {
+   id: number; 
+   adCount: number;
+   price: number;
+   validityDays: number; 
+  }
+
 export type AdListResponse = Ad[]
+export type AdPacketList = AdPacket[]
   
