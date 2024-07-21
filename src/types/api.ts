@@ -42,6 +42,14 @@ export type PaymentDetails = {
   cvv: number;
 };
 
+export interface UserPacket {
+  id: number;
+  userId: number;
+  packageId: number;
+  remainingCount: number;
+  expiryDate: string;
+}
+
 
 export type AdListResponse = Ad[]
 export type AdPacketList = AdPacket[]
