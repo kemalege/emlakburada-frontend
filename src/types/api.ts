@@ -33,7 +33,15 @@ export interface AdPacket {
    adCount: number;
    price: number;
    validityDays: number; 
-  }
+}
+
+export type PaymentDetails = {
+  fullName: string;
+  cardNumber: string;
+  expiryDate: string;
+  cvv: number;
+};
+
 
 export type AdListResponse = Ad[]
 export type AdPacketList = AdPacket[]
