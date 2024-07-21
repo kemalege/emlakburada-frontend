@@ -11,7 +11,7 @@ export function middleware(req: NextRequest) {
     //     )
     // }
 
-    if (!verify && url.includes('/myads')) {
+    if (!verify && (url.includes('/my-ads') || url.includes('/my-packets') || url.includes('/create-ad'))){
       return NextResponse.redirect("http://localhost:3000/login");
     }
   
