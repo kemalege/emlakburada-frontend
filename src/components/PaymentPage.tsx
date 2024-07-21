@@ -38,7 +38,7 @@ export default function PaymentPage<T extends Product>({ product, onSubmitPaymen
                 expiryDate: data.cardExpiration,
                 cvv: data.cvv,
             },
-            productId: product.id,
+            packageId: product.id,
             userId: userId,
         })
         toast({
@@ -46,7 +46,7 @@ export default function PaymentPage<T extends Product>({ product, onSubmitPaymen
             className: "bg-green-400 text-white",
             description: "İlanlarım sayfasına yönlendiriliyorsunuz.",
           })
-         router.replace("/my-ads") 
+         router.replace("/my-packets") 
       }
   
     return (
