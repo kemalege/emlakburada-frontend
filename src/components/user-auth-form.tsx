@@ -5,7 +5,6 @@ import { useSearchParams } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { signIn } from "next-auth/react"
 import { useForm } from "react-hook-form"
-import * as z from "zod"
 
 import { cn } from "@/lib/utils"
 import { TuserAuthSchema, userAuthSchema } from "@/lib/validations/auth"
@@ -13,11 +12,12 @@ import { buttonVariants } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { toast } from "@/components/ui/use-toast"
-import { Icons } from "@/components/icons"
 import { useRouter } from "next/navigation"
 import Cookies from "js-cookie"
 import apiFetch from "@/lib/api"
-import { ApiResponse, User } from "@/types/api"
+import { User } from "@/types/api"
+import { Icons } from "./ui/icons"
+import { useUser } from "@/app/context/UserContext"
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -38,6 +38,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const searchParams = useSearchParams()
 
   const router = useRouter()
+  const user = useUser()
 
   async function onSubmit(data: TuserAuthSchema) {
     setIsLoading(true)
@@ -54,13 +55,17 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     });
   
     const { status, data: responseData, error } = result;
+
+    console.log(result)
   
     if (status === 'SUCCESS') {
       const { id, name, email } = responseData;
       setCheckUserExist(true);
+      // console.log(`User ${name} with email ${email} found with id ${id}`);
+      user.setUser({ name });
       Cookies.set('authenticated', 'true');
-      Cookies.set('userId', id);
-      router.push('/myads');
+      Cookies.set('userId', id.toString());
+      router.push('/my-ads');
     } else {
       console.error('Error from server:', error);
       setError('email', {
@@ -74,21 +79,8 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         variant: "destructive",
       });
     }
-  
     setIsLoading(false);
-  
-    if (!checkUserExist) {
-      return toast({
-        title: "Bir şeyler yanlış gitti.",
-        description: "Giriş isteği başarısız oldu. Lütfen tekrar deneyin.",
-        variant: "destructive",
-      });
-    }
 
-    // return toast({
-    //   title: "Check your email",
-    //   description: "We sent you a login link. Be sure to check your spam too.",
-    // })
   }
 
   return (
