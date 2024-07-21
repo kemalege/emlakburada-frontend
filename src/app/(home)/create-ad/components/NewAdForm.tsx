@@ -27,6 +27,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel } fr
 import { useToast } from "@/components/ui/use-toast"
 import { ToastAction } from "@/components/ui/toast";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const categories = [
   { value: "emlak", label: "Emlak" },
@@ -54,7 +55,8 @@ export function NewAdForm({ createNewAd }: { createNewAd: (data: TAdFormSchema) 
         formState: { errors },
       } = form;
 
-      const { toast } = useToast()
+    const { toast } = useToast()
+    const router = useRouter()
   
     async function onSubmit(data: TAdFormSchema) {
       console.log(data);
@@ -66,6 +68,9 @@ export function NewAdForm({ createNewAd }: { createNewAd: (data: TAdFormSchema) 
           description: "İlanınız onaylanmak üzere incelemeye alınmıştır",
           className: "bg-green-300 text-white",
         });
+
+        router.replace('/my-ads');
+        
       } else {
         console.log("Error from server:", response.message);
         toast({
