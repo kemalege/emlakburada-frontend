@@ -2,6 +2,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { useUser } from '@/app/context/UserContext';
+import { UserMenuDropDown } from './UserMenuDropdown';
 
 const Header = () => {
 
@@ -12,12 +13,13 @@ const Header = () => {
       <nav className="container mx-auto flex justify-between items-center">
         <Link href="/" className="text-xl font-bold text-gray-800">emlakburada.com</Link>
         <div className="flex items-center space-x-4">
+          <UserMenuDropDown />
           <span className="text-gray-800">{user.name}</span>
           <Link href="/my-ads">
             <p className="text-blue-500 hover:text-blue-700">İlanlarım</p>
           </Link>
-          <Link className='bg-blue-500 px-4 py-2 ' href="/my-ads">
-            <p className="text-white hover:text-blue-700">İlan Ver</p>
+          <Link href="/create-ad" className='bg-blue-500 px-4 py-2 hover:bg-blue-600'>
+            <p className="text-white">İlan Ver</p>
           </Link>
         </div>
       </nav>
