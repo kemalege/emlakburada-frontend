@@ -1,10 +1,4 @@
 import { AdStatus } from "./enums";
-
-export interface User {
-    id: string;
-    name: string;
-    email: string;
-  }
   
   export interface ApiResponse<T> {
     status: string;
@@ -50,6 +44,26 @@ export interface UserPacket {
   expiryDate: string;
 }
 
+export type User = {
+  id: number;
+  name: string;
+  surname: string;
+  phoneNumber: string | null;
+  email: string;
+};
+
+export type AdDetails = {
+  id: number;
+  user: User;
+  createDate: string;
+  adStatus: string;
+  adCode: string;
+  title: string;
+  category: string;
+  price: number;
+  details: string;
+  location: string;
+};
 
 export type AdListResponse = Ad[]
 export type AdPacketList = AdPacket[]
