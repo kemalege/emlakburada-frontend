@@ -6,7 +6,6 @@ import { toast } from "@/components/ui/use-toast";
 import { AdCard } from "@/components/AdCard";
 import { Ad, AdListResponse } from "@/types/api";
 import { revalidateTag } from "next/cache";
-import { AdStatus } from "@/types/enums";
 
 const cookieStore = cookies();
 
