@@ -93,7 +93,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             </Label>
             <Input
               id="email"
-              placeholder="isim@adres.com"
+              placeholder="E-posta adresinizi giriniz"
               type="email"
               autoCapitalize="none"
               autoComplete="email"
@@ -121,7 +121,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         </div>
         <div className="relative flex justify-center text-xs uppercase">
           <span className="bg-background px-2 text-muted-foreground">
-            Or continue with
+            veya devam et
           </span>
         </div>
       </div>
