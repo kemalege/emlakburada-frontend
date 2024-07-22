@@ -14,23 +14,67 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+To get started with the project, follow these steps:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Clone the repository:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```bash
+git clone https://github.com/kemalege/emlakburada-frontend.git
+```
 
-## Learn More
+2. Install the dependencies:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+# or
+bun install
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. Start the development server:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```bash
+npm run dev
+```
 
-## Deploy on Vercel
+## Used Technologies
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The following technologies are used in this project:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Next.js 14
+- TypeScript
+- React Hook Form
+- Zod
+- NextAuth.js
+- shadcn/ui
+- Tailwind CSS
+
+
+## Screenshots of the Application
+
+#### Admin login page
+![Admin Login](https://res.cloudinary.com/djhvhao4u/image/upload/v1721607358/emlakburada/Ekran_g%C3%B6r%C3%BCnt%C3%BCs%C3%BC_2024-07-22_031457_wss5ru.png)
+
+#### Main page
+![Admin Panel](https://res.cloudinary.com/djhvhao4u/image/upload/v1721607358/emlakburada/Ekran_g%C3%B6r%C3%BCnt%C3%BCs%C3%BC_2024-07-22_030944_wkt5nt.png)
+
+#### Ad details
+![Admin Panel](https://res.cloudinary.com/djhvhao4u/image/upload/v1721607566/emlakburada/Ekran_g%C3%B6r%C3%BCnt%C3%BCs%C3%BC_2024-07-22_031913_ligqkz.png)
+
+#### Place an new ad
+![Admin Panel](https://res.cloudinary.com/djhvhao4u/image/upload/v1721607357/emlakburada/Ekran_g%C3%B6r%C3%BCnt%C3%BCs%C3%BC_2024-07-22_031102_yohgfa.png)
+
+#### My ads
+![Admin Panel](https://res.cloudinary.com/djhvhao4u/image/upload/v1721607640/emlakburada/Ekran_g%C3%B6r%C3%BCnt%C3%BCs%C3%BC_2024-07-22_032003_yq7cpk.png)
+
+#### Purchase a package
+![Admin Panel](https://res.cloudinary.com/djhvhao4u/image/upload/v1721607358/emlakburada/Ekran_g%C3%B6r%C3%BCnt%C3%BCs%C3%BC_2024-07-22_031016_zmv4bt.png)
+
+#### Payment page
+![Admin Panel](https://res.cloudinary.com/djhvhao4u/image/upload/v1721607357/emlakburada/Ekran_g%C3%B6r%C3%BCnt%C3%BCs%C3%BC_2024-07-22_031035_yh05pc.png)
+
+#### Remaining rights
+![Admin Panel](https://res.cloudinary.com/djhvhao4u/image/upload/v1721607358/emlakburada/Ekran_g%C3%B6r%C3%BCnt%C3%BCs%C3%BC_2024-07-22_031003_k4ekjh.png)
